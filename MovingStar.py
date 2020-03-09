@@ -15,7 +15,7 @@ class MovingStar(Star):
         MovingStar.delta_t = dt
 
     def acceleration(self, star, star2):
-        force = self.gravitation(star, 10)
+        force = self.gravitation(star, 6.67425)
         force2 = self.gravitation(star2, 10)
         self.acc[0] = (force[0] + force2[0])/self.get_mess()
         self.acc[1] = (force[1] + force2[1])/self.get_mess()
