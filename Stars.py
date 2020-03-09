@@ -21,7 +21,7 @@ class Star:
     def get_x(self):
         """
         show x coordinate
-        :return:
+        :return: float x
         """
         return self.__pos_x
 
