@@ -4,6 +4,7 @@ from MovingStar import MovingStar
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import pylab as pl
+from decimal import Decimal, getcontext
 
 
 class ThreeBodyProblem:
@@ -13,19 +14,27 @@ class ThreeBodyProblem:
         self.__s2 = star2
         self.__s3 = star3
 
-    def run(self):
+    def run(self, dt, t=100):
+        t = Decimal(str(t))
+        """
+        Start simulating
+        :param t: time of duration
+        :param dt: refresh time
+        """
         p1 = [[], [], []]
         p2 = [[], [], []]
         p3 = [[], [], []]
-
-        while MovingStar.total_T < 100:
+        MovingStar.delta_t = dt
+        delta_t = Decimal(str(dt))
+        while MovingStar.total_T < t:
             pos1 = self.__s1.get_position()
             pos2 = self.__s2.get_position()
             pos3 = self.__s3.get_position()
-            print('t={:.6f}'.format(MovingStar.total_T) +
-                  ' s1({:+.6f},{:+.6f},{:+.6f})'.format(pos1[0], pos1[1], pos1[2]) +
-                  ' s2({:+.6f},{:+.6f},{:+.6f})'.format(pos2[0], pos2[1], pos2[2]) +
-                  ' s3({:+.6f},{:+.6f},{:+.6f})'.format(pos3[0], pos3[1], pos3[2]))
+            if MovingStar.total_T == Decimal(int(MovingStar.total_T)):
+                print('t={:.6f}'.format(MovingStar.total_T) +
+                      ' s1({:+.6f},{:+.6f},{:+.6f})'.format(pos1[0], pos1[1], pos1[2]) +
+                      ' s2({:+.6f},{:+.6f},{:+.6f})'.format(pos2[0], pos2[1], pos2[2]) +
+                      ' s3({:+.6f},{:+.6f},{:+.6f})'.format(pos3[0], pos3[1], pos3[2]))
             for i in range(3):
                 p1[i].append(pos1[i])
                 p2[i].append(pos2[i])
@@ -39,8 +48,7 @@ class ThreeBodyProblem:
             self.__s1.set_velocity()
             self.__s2.set_velocity()
             self.__s3.set_velocity()
-            MovingStar.total_T += MovingStar.delta_t
-
+            MovingStar.total_T += delta_t
         fig = pl.figure()
         ax = Axes3D(fig)
         ax.plot3D(p1[0], p1[1], p1[2], c='r')
@@ -51,7 +59,8 @@ class ThreeBodyProblem:
 
 if __name__ == "__main__":
 
-    TBP = ThreeBodyProblem(MovingStar(0.0, 0.0, 0.0, 0.01, 1, [0, 0, 0]),
-                           MovingStar(10.0, 0.0, 0.0, 0.01, 1, [0, 1, 0]),
-                           MovingStar(0.0, 0.0, 10.0, 0.01, 1, [-1, 0, 0]))
-    TBP.run()
+    getcontext().prec = 6
+    TBP = ThreeBodyProblem(MovingStar(0.0, 0.0, 0.0, 1, [0, 0, 0]),
+                           MovingStar(10.0, 0.0, 0.0, 0.5, [0, 1, 0]),
+                           MovingStar(0.0, 0.0, 10.0, 0.5, [-1, 0, 0]))
+    TBP.run(0.01, 200)

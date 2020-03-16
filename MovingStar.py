@@ -2,17 +2,18 @@
 
 from Stars import Star
 import copy
+from decimal import Decimal
 
 
 class MovingStar(Star):
-    total_T = 0
+    total_T = Decimal('0')
     delta_t = 0
 
-    def __init__(self, pos_x, pos_y, pos_z, dt, mess=1, velocity=[0, 0, 0]):
+    def __init__(self, pos_x, pos_y, pos_z, mess=1, velocity=[0, 0, 0], dt=0.01):
         super().__init__(pos_x, pos_y, pos_z, mess)
         self.velocity = copy.deepcopy(velocity)
         self.acc = [0, 0, 0]
-        MovingStar.delta_t = dt
+        MovingStar.delta_t = Decimal(str(dt))
 
     def acceleration(self, star, star2):
         force = self.gravitation(star, 6.67425)

@@ -11,7 +11,7 @@ class Star:
         :param pos_x: x coordinate
         :param pos_y: y coordinate
         :param pos_z: z coordinate
-        :param mess: mess of the point
+        :param mess: mess of the star
         """
         self.__pos_x = float(pos_x)
         self.__pos_y = float(pos_y)
@@ -20,7 +20,7 @@ class Star:
 
     def get_x(self):
         """
-        show x coordinate
+        Show x coordinate
         :return: float x
         """
         return self.__pos_x
@@ -44,6 +44,11 @@ class Star:
         return self.__mess
 
     def __relative_coordinates(self, star):
+        """
+        Calculate the relative coordinates
+        :param star: Stars.Star target star
+        :return: List[float] three coordinates
+        """
         delta_x = star.get_x() - self.__pos_x
         delta_y = star.get_y() - self.__pos_y
         delta_z = star.get_z() - self.__pos_z
